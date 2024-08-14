@@ -629,10 +629,12 @@ where
             verifier_params.n(),
         )?;
         let verify_elapsed = verify_start.elapsed();
-        perf_metrics.verify_time = format!("{}.{}", verify_elapsed.as_secs(), verify_elapsed.subsec_millis());
+        // perf_metrics.verify_time = format!("{}.{}", verify_elapsed.as_secs(), verify_elapsed.subsec_millis());
+        perf_metrics.verify_time = verify_elapsed.as_secs_f64()
 
     }
     let elapsed = now.elapsed();
+
     info!(
         "proof took {}.{}",
         elapsed.as_secs(),
@@ -640,7 +642,7 @@ where
     );
 
     // Update performance metrics if provided
-    perf_metrics.proof_time = format!("{}.{}", elapsed.as_secs(), elapsed.subsec_millis());
+    perf_metrics.proof_time = elapsed.as_secs_f64();
         
     let _ = write_perf_metrics_to_csv(&perf_metrics, "perf_metrics.csv", false);
 

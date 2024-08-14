@@ -33,12 +33,12 @@ pub struct ProverPerformanceMetrics {
     pub num_msms: usize,
     pub max_fft_size: usize,
     pub max_msm_size: usize,
-    pub total_fft_time: String,
-    pub total_msm_time: String,
+    pub total_fft_time: f64,
+    pub total_msm_time: f64,
     // pub check_mode: str,
 
-    pub proof_time: String,
-    pub verify_time: String,
+    pub proof_time: f64,
+    pub verify_time: f64,
 }
 
 // pub fn write_perf_metrics_to_csv(settings: &ProverPerformanceMetrics, file_path: &str) -> Result<(), Box<dyn Error>> {
