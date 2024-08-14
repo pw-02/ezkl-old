@@ -1032,6 +1032,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "blake2"
+version = "0.10.6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "46502ad458c9a52b69d4d4d32775c788b7a1b85e8bc9d482d92250fc0e3f8efe"
+dependencies = [
+ "digest 0.10.7",
+]
+
+[[package]]
 name = "blake2b_simd"
 version = "1.0.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1843,9 +1852,9 @@ dependencies = [
  "gag",
  "getrandom",
  "halo2_gadgets",
- "halo2_proofs",
+ "halo2_proofs 0.3.0",
  "halo2_solidity_verifier",
- "halo2curves 0.6.1 (git+https://github.com/privacy-scaling-explorations/halo2curves?rev=9fff22c)",
+ "halo2curves 0.7.0",
  "hex",
  "indicatif",
  "instant",
@@ -2266,18 +2275,36 @@ dependencies = [
 [[package]]
 name = "halo2_gadgets"
 version = "0.2.0"
-source = "git+https://github.com/zkonduit/halo2?branch=ac/optional-selector-poly#54f54453cf186aa5d89579c4e7663f9a27cfb89a"
 dependencies = [
  "arrayvec 0.7.4",
  "bitvec",
  "ff",
  "group",
- "halo2_proofs",
+ "halo2_proofs 0.3.0",
  "halo2curves 0.1.0",
  "lazy_static",
  "rand 0.8.5",
  "subtle",
  "uint",
+]
+
+[[package]]
+name = "halo2_proofs"
+version = "0.3.0"
+dependencies = [
+ "blake2b_simd",
+ "env_logger",
+ "ff",
+ "group",
+ "halo2curves 0.7.0",
+ "icicle",
+ "log",
+ "maybe-rayon",
+ "rand_chacha",
+ "rand_core 0.6.4",
+ "rustacuda",
+ "sha3 0.9.1",
+ "tracing",
 ]
 
 [[package]]
@@ -2290,12 +2317,10 @@ dependencies = [
  "ff",
  "group",
  "halo2curves 0.6.1 (git+https://github.com/privacy-scaling-explorations/halo2curves?rev=9fff22c)",
- "icicle",
  "log",
  "maybe-rayon",
  "rand_chacha",
  "rand_core 0.6.4",
- "rustacuda",
  "sha3 0.9.1",
  "tracing",
 ]
@@ -2307,7 +2332,7 @@ source = "git+https://github.com/alexander-camuto/halo2-solidity-verifier?branch
 dependencies = [
  "askama",
  "blake2b_simd",
- "halo2_proofs",
+ "halo2_proofs 0.3.0 (git+https://github.com/zkonduit/halo2?branch=ac/optional-selector-poly#54f54453cf186aa5d89579c4e7663f9a27cfb89a?branch=ac/optional-selector-poly)",
  "hex",
  "itertools 0.11.0",
  "ruint",
@@ -2385,7 +2410,6 @@ dependencies = [
  "blake2b_simd",
  "ff",
  "group",
- "hex",
  "lazy_static",
  "num-bigint",
  "num-traits",
@@ -2395,11 +2419,49 @@ dependencies = [
  "rand 0.8.5",
  "rand_core 0.6.4",
  "rayon",
- "serde",
- "serde_arrays",
  "static_assertions",
  "subtle",
  "unroll",
+]
+
+[[package]]
+name = "halo2curves"
+version = "0.7.0"
+dependencies = [
+ "blake2",
+ "digest 0.10.7",
+ "ff",
+ "group",
+ "halo2derive",
+ "hex",
+ "lazy_static",
+ "num-bigint",
+ "num-integer",
+ "num-traits",
+ "pairing",
+ "pasta_curves",
+ "paste",
+ "rand 0.8.5",
+ "rand_core 0.6.4",
+ "rayon",
+ "serde",
+ "serde_arrays",
+ "sha2",
+ "static_assertions",
+ "subtle",
+ "unroll",
+]
+
+[[package]]
+name = "halo2derive"
+version = "0.1.0"
+dependencies = [
+ "num-bigint",
+ "num-integer",
+ "num-traits",
+ "proc-macro2",
+ "quote",
+ "syn 1.0.109",
 ]
 
 [[package]]
@@ -2407,7 +2469,7 @@ name = "halo2wrong"
 version = "0.1.0"
 source = "git+https://github.com/zkonduit/halo2wrong?branch=ac/chunked-mv-lookup#b43ebe30e84825d0d004fa27803d99c4187d419f"
 dependencies = [
- "halo2_proofs",
+ "halo2_proofs 0.3.0 (git+https://github.com/zkonduit/halo2?branch=ac/optional-selector-poly#54f54453cf186aa5d89579c4e7663f9a27cfb89a?branch=ac/optional-selector-poly)",
  "num-bigint",
  "num-integer",
  "num-traits",
@@ -4824,7 +4886,7 @@ version = "0.1.1"
 source = "git+https://github.com/zkonduit/snark-verifier?branch=ac/chunked-mv-lookup#574b65ea6b4d43eebac5565146519a95b435815c"
 dependencies = [
  "ecc",
- "halo2_proofs",
+ "halo2_proofs 0.3.0 (git+https://github.com/zkonduit/halo2?branch=ac/optional-selector-poly#54f54453cf186aa5d89579c4e7663f9a27cfb89a?branch=ac/optional-selector-poly)",
  "halo2curves 0.6.1 (registry+https://github.com/rust-lang/crates.io-index)",
  "hex",
  "itertools 0.10.5",
