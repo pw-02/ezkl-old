@@ -39,7 +39,8 @@ use std::ops::Deref;
 use std::path::PathBuf;
 use thiserror::Error as thisError;
 use tosubcommand::ToFlags;
-
+use crate::logger::ProverPerformanceMetrics;
+use crate::logger::write_perf_metrics_to_csv;
 use halo2curves::bn256::{Bn256, Fr, G1Affine};
 
 fn serde_format_from_str(s: &str) -> halo2_proofs::SerdeFormat {
@@ -541,6 +542,7 @@ pub fn create_proof_circuit<
     transcript_type: TranscriptType,
     split: Option<ProofSplitCommit>,
     protocol: Option<PlonkProtocol<Scheme::Curve>>,
+    // perf_metrics: Option<&mut ProverPerformanceMetrics> // Mutable reference
 ) -> Result<Snark<Scheme::Scalar, Scheme::Curve>, Box<dyn Error>>
 where
     Scheme::ParamsVerifier: 'params,
@@ -552,6 +554,8 @@ where
         + WithSmallOrderMulGroup<3>,
     Scheme::Curve: Serialize + DeserializeOwned,
 {
+    let mut perf_metrics = ProverPerformanceMetrics::default();
+
     let strategy = Strategy::new(params.verifier_params());
     let mut transcript = TranscriptWriterBuffer::<_, Scheme::Curve, _>::init(vec![]);
     #[cfg(feature = "det-prove")]
@@ -569,6 +573,21 @@ where
         "pk num instance column: {:?}",
         pk.get_vk().cs().num_instance_columns()
     );
+    perf_metrics.params_k = params.k();
+    perf_metrics.params_n = params.n();
+    perf_metrics.k = pk.get_vk().get_domain().k();
+    perf_metrics.extended_k = pk.get_vk().get_domain().extended_k();
+    perf_metrics.num_advice_columns = pk.get_vk().cs().num_advice_columns();
+    perf_metrics.num_fixed_columns = pk.get_vk().cs().num_fixed_columns();
+    perf_metrics.num_instance_columns = pk.get_vk().cs().num_instance_columns();
+    perf_metrics.num_selectors = pk.get_vk().cs().num_selectors();
+    perf_metrics.num_challenges = pk.get_vk().cs().num_challenges();
+    perf_metrics.minimum_rows = pk.get_vk().cs().minimum_rows();
+    perf_metrics.blinding_factors = pk.get_vk().cs().blinding_factors();
+    perf_metrics.degee = pk.get_vk().cs().degree();
+    perf_metrics.max_gate_degree = pk.get_vk().cs().max_gate_degree();
+    perf_metrics.quotient_poly_degree = pk.get_vk().get_domain().get_quotient_poly_degree();
+    // perf_metrics.check_mode = check_mode.toString();
 
     info!("proof started...");
     // not wasm32 unknown
@@ -599,7 +618,9 @@ where
     // sanity check that the generated proof is valid
     if check_mode == CheckMode::SAFE {
         debug!("verifying generated proof");
+        let verify_start  = Instant::now();
         let verifier_params = params.verifier_params();
+        
         verify_proof_circuit::<V, Scheme, Strategy, E, TR>(
             &checkable_pf,
             verifier_params,
@@ -607,6 +628,9 @@ where
             strategy,
             verifier_params.n(),
         )?;
+        verify_elapsed = verify_start.elapsed();
+        perf_metrics.verify_time = format!("{}.{}", verify_elapsed.as_secs(), verify_elapsed.subsec_millis());
+
     }
     let elapsed = now.elapsed();
     info!(
@@ -614,6 +638,11 @@ where
         elapsed.as_secs(),
         elapsed.subsec_millis()
     );
+
+    // Update performance metrics if provided
+    perf_metrics.proof_time = format!("{}.{}", elapsed.as_secs(), elapsed.subsec_millis());
+        
+    let _ = write_perf_metrics_to_csv(&perf_metrics, "perf_metrics.csv", false);
 
     Ok(checkable_pf)
 }

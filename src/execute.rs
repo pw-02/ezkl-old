@@ -75,7 +75,8 @@ use std::str::FromStr;
 use std::time::Duration;
 use tabled::Tabled;
 use thiserror::Error;
-
+// use crate::logger::ProverPerformanceMetrics;
+// use crate::logger::write_perf_metrics_to_csv;
 use lazy_static::lazy_static;
 
 lazy_static! {
@@ -1760,6 +1761,9 @@ pub(crate) fn prove(
     let data = GraphWitness::from_path(data_path)?;
     let mut circuit = GraphCircuit::load(compiled_circuit_path)?;
 
+    // let mut perf_metrics = ProverPerformanceMetrics::default();
+
+
     circuit.load_graph_witness(&data)?;
 
     let pretty_public_inputs = circuit.pretty_public_inputs(&data)?;
@@ -1773,13 +1777,17 @@ pub(crate) fn prove(
 
     let commitment = circuit_settings.run_args.commitment.into();
     let logrows = circuit_settings.run_args.logrows;
+    
+    // perf_metrics.num_rows = circuit_settings.num_rows;
+    // perf_metrics.log_rows = logrows;
+
     // creates and verifies the proof
     let mut snark = match commitment {
         Commitments::KZG => {
             let pk =
                 load_pk::<KZGCommitmentScheme<Bn256>, GraphCircuit>(pk_path, circuit.params())?;
-
-            let params = load_params_prover::<KZGCommitmentScheme<Bn256>>(
+            
+                let params = load_params_prover::<KZGCommitmentScheme<Bn256>>(
                 srs_path,
                 logrows,
                 Commitments::KZG,
@@ -1864,6 +1872,7 @@ pub(crate) fn prove(
                     transcript,
                     proof_split_commits,
                     None,
+
                 ),
                 StrategyType::Accum => {
                     let protocol = Some(compile(
@@ -1890,17 +1899,20 @@ pub(crate) fn prove(
                         transcript,
                         proof_split_commits,
                         protocol,
+
                     )
                 }
             }
         }
     }?;
+    // let _ = write_perf_metrics_to_csv(&perf_metrics, "perf_metrics.csv");
 
     snark.pretty_public_inputs = pretty_public_inputs;
 
     if let Some(proof_path) = proof_path {
         snark.save(&proof_path)?;
     }
+
 
     Ok(snark)
 }

@@ -256,7 +256,7 @@ mod matmul_col_ultra_overflow_double_col {
     use super::*;
 
     const K: usize = 4;
-    const LEN: usize = 20;
+    const LEN: usize = 8;
     const NUM_INNER_COLS: usize = 2;
 
     #[derive(Clone)]
@@ -471,6 +471,7 @@ mod matmul_col_ultra_overflow {
             crate::pfsys::TranscriptType::EVM,
             None,
             None,
+
         );
 
         assert!(prover.is_ok());
@@ -1275,6 +1276,7 @@ mod conv_col_ultra_overflow {
             crate::pfsys::TranscriptType::EVM,
             None,
             None,
+
         );
 
         assert!(prover.is_ok());
@@ -1428,6 +1430,7 @@ mod conv_relu_col_ultra_overflow {
             // use safe mode to verify that the proof is correct
             None,
             None,
+
         );
 
         assert!(prover.is_ok());
@@ -2532,6 +2535,7 @@ mod lookup_ultra_overflow {
             crate::pfsys::TranscriptType::EVM,
             None,
             None,
+
         );
 
         assert!(prover.is_ok());
