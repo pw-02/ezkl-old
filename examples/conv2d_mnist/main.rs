@@ -461,6 +461,13 @@ pub fn runconv() {
         elapsed.subsec_millis()
     );
 
+    println!("domain {:?}", pk.get_vk().get_domain());
+    println!("cs {:?}", pk.get_vk().cs());
+
+
+    // pk.get_vk().get_domain()
+    // pk.get_vk().cs()
+
     println!("PROOF GENERATION");
     let now = Instant::now();
     let mut transcript = Blake2bWrite::<_, _, Challenge255<_>>::init(vec![]);
