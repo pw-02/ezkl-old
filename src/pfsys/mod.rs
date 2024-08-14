@@ -628,7 +628,7 @@ where
             strategy,
             verifier_params.n(),
         )?;
-        verify_elapsed = verify_start.elapsed();
+        let verify_elapsed = verify_start.elapsed();
         perf_metrics.verify_time = format!("{}.{}", verify_elapsed.as_secs(), verify_elapsed.subsec_millis());
 
     }
