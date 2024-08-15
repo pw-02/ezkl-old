@@ -573,9 +573,9 @@ where
         "pk num instance column: {:?}",
         pk.get_vk().cs().num_instance_columns()
     );
-    perf_metrics.params_k = params.k();
-    perf_metrics.params_n = params.n();
-    perf_metrics.k = pk.get_vk().get_domain().k();
+    // perf_metrics.params_k = params.k();
+    perf_metrics.n = params.n();
+    perf_metrics.k = params.k(); //pk.get_vk().get_domain().k();
     perf_metrics.extended_k = pk.get_vk().get_domain().extended_k();
     perf_metrics.num_advice_columns = pk.get_vk().cs().num_advice_columns();
     perf_metrics.num_fixed_columns = pk.get_vk().cs().num_fixed_columns();
@@ -584,7 +584,7 @@ where
     perf_metrics.num_challenges = pk.get_vk().cs().num_challenges();
     perf_metrics.minimum_rows = pk.get_vk().cs().minimum_rows();
     perf_metrics.blinding_factors = pk.get_vk().cs().blinding_factors();
-    perf_metrics.degee = pk.get_vk().cs().degree();
+    perf_metrics.cs_degree = pk.get_vk().cs().degree();
     perf_metrics.max_gate_degree = pk.get_vk().cs().max_gate_degree();
     perf_metrics.quotient_poly_degree = pk.get_vk().get_domain().get_quotient_poly_degree();
     // perf_metrics.check_mode = check_mode.toString();
@@ -643,9 +643,8 @@ where
 
     // Update performance metrics if provided
     perf_metrics.proof_time = elapsed.as_secs_f64();
-        
-    let _ = write_perf_metrics_to_csv(&perf_metrics, "perf_metrics.csv", false);
-
+    let _ = write_perf_metrics_to_csv("prover_performance_metrics.csv", &perf_metrics)?;
+    
     Ok(checkable_pf)
 }
 
