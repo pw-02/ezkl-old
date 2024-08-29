@@ -127,7 +127,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     verify_time: 0.8
     // };
     let metrics: ProverPerformanceMetrics = Default::default();
-    write_perf_metrics_to_csv("prover_performance_metrics.csv", &metrics)?;
+    write_perf_metrics_to_csv("halo2_prover_performance_metrics.csv", &metrics)?;
 
     Ok(())
 }
