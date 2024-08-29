@@ -28,6 +28,9 @@ serde_json = { version = "1.0.97", default_features = false, features = [
     "float_roundtrip",
     "raw_value",
 ], optional = true }
+csv = "1.1"
+serde_derive = "1.0"
+
 log = { version = "0.4.17", default_features = false, optional = true }
 thiserror = { version = "1.0.38", default_features = false }
 hex = { version = "0.4.3", default_features = false }
@@ -58,7 +61,7 @@ reqwest = { version = "0.11.14", default-features = false, features = [
     "multipart",
     "stream",
 ] }
-openssl = { version = "0.10.55", features = ["vendored"] }
+# openssl = { version = "0.10.55", features = ["vendored"] }
 postgres = "0.19.5"
 pg_bigdecimal = "0.1.5"
 lazy_static = "1.4.0"

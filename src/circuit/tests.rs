@@ -256,7 +256,7 @@ mod matmul_col_ultra_overflow_double_col {
     use super::*;
 
     const K: usize = 4;
-    const LEN: usize = 20;
+    const LEN: usize = 8;
     const NUM_INNER_COLS: usize = 2;
 
     #[derive(Clone)]

@@ -1,0 +1,2 @@
+#build python bindings
+maturin develop --release --features python-bindings
