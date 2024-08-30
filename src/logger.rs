@@ -54,7 +54,7 @@ pub fn write_perf_metrics_to_csv(file_path: &str, metrics: &ProverPerformanceMet
 
     // Create a CSV writer
     let mut wtr = Writer::from_writer(file);
-
+    
     // Check if the file is empty to determine if we need to write a header
     let file_is_empty = path.metadata()?.len() == 0;
 
@@ -130,7 +130,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     verify_time: 0.8
     // };
     let metrics: ProverPerformanceMetrics = Default::default();
-    write_perf_metrics_to_csv("prover_performance_metrics.csv", &metrics)?;
+    write_perf_metrics_to_csv("halo2_metrics.csv", &metrics)?;
 
     Ok(())
 }

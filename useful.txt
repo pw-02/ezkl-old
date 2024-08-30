@@ -1,2 +1,10 @@
 #build python bindings
 maturin develop --release --features python-bindings
+maturin build --release --features python-bindings --out C:\Users\pw\projects\dzkml\ezkl\wheels
+
+maturin build --release --features python-bindings --out /workspaces/dzkml/ezkl/wheels
+
+maturin develop --release --features python-bindings
+
+
+ezkl\wheels

@@ -17,6 +17,8 @@ crate-type = ["cdylib", "rlib"]
 [dependencies]
 halo2_gadgets = { git = "https://github.com/zkonduit/halo2", branch = "ac/optional-selector-poly" }
 halo2_proofs = { git = "https://github.com/zkonduit/halo2", branch = "ac/optional-selector-poly" }
+# halo2_proofs = { path = "../halo2/halo2_proofs" }
+
 halo2curves = { git = "https://github.com/privacy-scaling-explorations/halo2curves", rev = "9fff22c", features = [
     "derive_serde",
 ] }
@@ -61,7 +63,7 @@ reqwest = { version = "0.11.14", default-features = false, features = [
     "multipart",
     "stream",
 ] }
-# openssl = { version = "0.10.55", features = ["vendored"] }
+openssl = { version = "0.10.55", features = ["vendored"] }
 postgres = "0.19.5"
 pg_bigdecimal = "0.1.5"
 lazy_static = "1.4.0"

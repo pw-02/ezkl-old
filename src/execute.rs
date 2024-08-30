@@ -81,6 +81,7 @@ use std::io::BufWriter;
 use std::time::Duration;
 use tabled::Tabled;
 use thiserror::Error;
+use std::env;
 
 #[cfg(not(target_arch = "wasm32"))]
 static _SOLC_REQUIREMENT: OnceLock<bool> = OnceLock::new();
@@ -113,16 +114,52 @@ use lazy_static::lazy_static;
 lazy_static! {
     #[derive(Debug)]
     /// The path to the ezkl related data.
-    pub static ref EZKL_REPO_PATH: String =
-        std::env::var("EZKL_REPO_PATH").unwrap_or_else(|_|
-            // $HOME/.ezkl/
-            format!("{}/.ezkl", std::env::var("HOME").unwrap())
-        );
+    pub static ref EZKL_REPO_PATH: PathBuf = {
+        // Get the home directory, handling both Unix and Windows
+        let home_dir = env::var("HOME").or_else(|_| env::var("USERPROFILE")).unwrap_or_else(|_| {
+            // Provide a default value if neither HOME nor USERPROFILE is set
+            String::from(".")
+        });
+
+        // Construct the ezkl repository path
+        let mut ezkl_repo_path = PathBuf::from(home_dir);
+        ezkl_repo_path.push(".ezkl");
+
+        // Optionally, verify the path exists (useful for debugging)
+        if !ezkl_repo_path.exists() {
+            eprintln!("Warning: The path {} does not exist.", ezkl_repo_path.display());
+        }
+
+        ezkl_repo_path
+    };
 
     /// The path to the ezkl related data (SRS)
-    pub static ref EZKL_SRS_REPO_PATH: String = format!("{}/srs", *EZKL_REPO_PATH);
+    pub static ref EZKL_SRS_REPO_PATH: PathBuf = {
+        // Construct the SRS path
+        let mut srs_path = EZKL_REPO_PATH.clone();
+        srs_path.push("srs");
 
+        // Optionally, verify the path exists (useful for debugging)
+        if !srs_path.exists() {
+            eprintln!("Warning: The path {} does not exist.", srs_path.display());
+        }
+
+        srs_path
+    };
 }
+// lazy_static! {
+//     #[derive(Debug)]
+//     /// The path to the ezkl related data.
+//     pub static ref EZKL_REPO_PATH: String =
+//         std::env::var("EZKL_REPO_PATH").unwrap_or_else(|_|
+//             // $HOME/.ezkl/
+//             format!("{}/.ezkl", std::env::var("HOME").unwrap())
+//         );
+
+//     /// The path to the ezkl related data (SRS)
+//     pub static ref EZKL_SRS_REPO_PATH: String = format!("{}/srs", *EZKL_REPO_PATH);
+
+// }
 
 /// A wrapper for tensor related errors.
 #[derive(Debug, Error)]
