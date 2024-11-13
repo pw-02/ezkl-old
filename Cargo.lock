@@ -1796,7 +1796,6 @@ dependencies = [
  "maybe-rayon",
  "mnist",
  "num",
- "openssl",
  "pg_bigdecimal",
  "plotters",
  "portable-atomic",
@@ -2189,7 +2188,6 @@ dependencies = [
 [[package]]
 name = "halo2_gadgets"
 version = "0.2.0"
-source = "git+https://github.com/zkonduit/halo2?branch=ac/optional-selector-poly#54f54453cf186aa5d89579c4e7663f9a27cfb89a"
 dependencies = [
  "arrayvec 0.7.4",
  "bitvec",
@@ -2206,9 +2204,9 @@ dependencies = [
 [[package]]
 name = "halo2_proofs"
 version = "0.3.0"
-source = "git+https://github.com/zkonduit/halo2?branch=ac/optional-selector-poly#54f54453cf186aa5d89579c4e7663f9a27cfb89a?branch=ac/optional-selector-poly#54f54453cf186aa5d89579c4e7663f9a27cfb89a"
 dependencies = [
  "blake2b_simd",
+ "csv",
  "env_logger",
  "ff",
  "group",
@@ -2219,6 +2217,8 @@ dependencies = [
  "rand_chacha",
  "rand_core 0.6.4",
  "rustacuda",
+ "serde",
+ "serde_derive",
  "sha3 0.9.1",
  "tracing",
 ]
@@ -3291,15 +3291,6 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ff011a302c396a5197692431fc1948019154afc178baf7d8e37367442a4601cf"
 
 [[package]]
-name = "openssl-src"
-version = "300.3.1+3.3.1"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7259953d42a81bf137fbbd73bd30a8e1914d6dce43c2b90ed575783a22608b91"
-dependencies = [
- "cc",
-]
-
-[[package]]
 name = "openssl-sys"
 version = "0.9.102"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3307,7 +3298,6 @@ checksum = "c597637d56fbc83893a35eb0dd04b2b8e7a50c91e64e9493e398b5df4fb45fa2"
 dependencies = [
  "cc",
  "libc",
- "openssl-src",
  "pkg-config",
  "vcpkg",
 ]

@@ -7,7 +7,6 @@ use std::fmt::Formatter;
 use std::io::Write;
 use csv::Writer;
 use std::path::Path;
-use std::fs;	
 use std::fs::OpenOptions;
 
 
@@ -130,7 +129,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     //     verify_time: 0.8
     // };
     let metrics: ProverPerformanceMetrics = Default::default();
-    write_perf_metrics_to_csv("halo2_metrics.csv", &metrics)?;
+    write_perf_metrics_to_csv("halo2_circuit.csv", &metrics)?;
 
     Ok(())
 }

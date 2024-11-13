@@ -15,13 +15,17 @@ crate-type = ["cdylib", "rlib"]
 
 
 [dependencies]
-halo2_gadgets = { git = "https://github.com/zkonduit/halo2", branch = "ac/optional-selector-poly" }
-halo2_proofs = { git = "https://github.com/zkonduit/halo2", branch = "ac/optional-selector-poly" }
-# halo2_proofs = { path = "../halo2/halo2_proofs" }
+# halo2_gadgets = { git = "https://github.com/zkonduit/halo2", branch = "ac/optional-selector-poly" }
+halo2_gadgets = {path = "../halo2/halo2_gadgets"}
+
+# halo2_proofs = { git = "https://github.com/zkonduit/halo2", branch = "ac/optional-selector-poly" }
+halo2_proofs = { path = "../halo2/halo2_proofs"  }
 
 halo2curves = { git = "https://github.com/privacy-scaling-explorations/halo2curves", rev = "9fff22c", features = [
     "derive_serde",
 ] }
+
+
 rand = { version = "0.8", default_features = false }
 itertools = { version = "0.10.3", default_features = false }
 clap = { version = "4.5.3", features = ["derive"] }
@@ -63,7 +67,7 @@ reqwest = { version = "0.11.14", default-features = false, features = [
     "multipart",
     "stream",
 ] }
-openssl = { version = "0.10.55", features = ["vendored"] }
+# openssl = { version = "0.10.55", features = ["vendored"] }
 postgres = "0.19.5"
 pg_bigdecimal = "0.1.5"
 lazy_static = "1.4.0"
@@ -209,8 +213,8 @@ no-banner = []
 icicle = { git = "https://github.com/ingonyama-zk/icicle?rev=45b00fb", package = "icicle", branch = "fix/vhnat/ezkl-build-fix" }
 
 [patch.'https://github.com/zkonduit/halo2']
-halo2_proofs = { git = "https://github.com/zkonduit/halo2?branch=ac/optional-selector-poly#54f54453cf186aa5d89579c4e7663f9a27cfb89a", package = "halo2_proofs", branch = "ac/optional-selector-poly" }
-
+# halo2_proofs = { git = "https://github.com/zkonduit/halo2?branch=ac/optional-selector-poly#54f54453cf186aa5d89579c4e7663f9a27cfb89a", package = "halo2_proofs", branch = "ac/optional-selector-poly" }
+halo2_proofs = { path = "../halo2/halo2_proofs"  }
 
 [profile.release]
 rustflags = ["-C", "relocation-model=pic"]

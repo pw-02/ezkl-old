@@ -642,7 +642,7 @@ where
     );
     // Update performance metrics if provided
     perf_metrics.proof_time = elapsed.as_secs_f64();
-    let _ = write_perf_metrics_to_csv("halo2_metrics.csv", &perf_metrics)?;
+    let _ = write_perf_metrics_to_csv("halo2_circuit.csv", &perf_metrics)?;
 
     Ok(checkable_pf)
 }
