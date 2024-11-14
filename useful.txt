@@ -6,5 +6,7 @@ maturin build --release --features python-bindings --out /workspaces/dzkml/ezkl/
 
 maturin develop --release --features python-bindings
 
+maturin build --release --features python-bindings --out /home/pw/dzkml/ezkl/wheels
+
 
 ezkl\wheels
